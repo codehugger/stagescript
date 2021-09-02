@@ -6,7 +6,7 @@ A scripting language for non-programmers to create playable games.
 Introduction
 ------------
 
-There is a largely uncharted territory when it comes to writers expressing themselves through an interactive medium like computer games. When you write a book you have no way of writing multiple endings unless you write a Create-Your-Own-Adventure (CYOA) style book. Those books are all well and good and were the main inspiration for this project but they are a bit last century. CYOA books can also be very hard to visualize as a writer since you have to keep track of everything yourself. To make things worse, writers have no way of releasing their works as playable interactive projects without calling in a computer programmer, which are very hard to come buy and employing one throughout the creation process can be extremely expensive. Stagescript is aimed at solving this problem opening up the world of interactivity to writers and other non-programmers.
+There is a largely uncharted territory when it comes to writers expressing themselves through an interactive medium like computer games. When you write a book you have no way of writing multiple endings unless you write a Create-Your-Own-Adventure (CYOA) style book. Those books are all well and good and were the main inspiration for this project but they are a bit last century. CYOA books can also be very hard to visualize as a writer since you have to keep track of everything yourself. To make things worse, writers have no way of releasing their works as playable interactive projects without calling in a computer programmer, which are very hard to come buy and employing one throughout the creation process can be extremely expensive. Stagescript is aimed at solving this problem opening up the world of interactivity to writers and other non-programmers. But that is not all. With stagescript writers can not only create CYOA style games but by attaching media like pictures, sounds and video the player can create a point-and-click (PAC) game similar to popular titles like Monkey Island, Day of The Tentacle and Indiana Jones and The Fate Of Atlantis.
 
 To clarify, Stagescript is nothing but text on a computer screen without its counterpart the Stagecraft Engine which allows the player to interact with the written story. Stagecraft Engine is a game engine available to both players and writers at http://fictiontheater.com.
 
@@ -150,7 +150,7 @@ The above example will result in the first four lines being executed at the star
 Character: Bearded guy
 ```
 
-This line starts the character’s scope within a scene and tells the game engine that everything that comes after is within the scope belonging to the character Bearded guy.
+This line starts the character’s scope within a scene and tells the game engine that everything that comes after is within the scope belonging to the character **Bearded guy**.
 
 ```
 A bearded guy sitting on a stool by the bar. His eye-patch, skull decorated hat and
@@ -159,10 +159,12 @@ pegleg might suggest he’s a pirate. Maybe you should talk to him.
 
 Every scene and thing has a description which the player sees upon entering a scene or examining an item. Stagescript is aimed at writers so the description part is strictly non-optional :).
 
+```
 [Player] says "Hello! I’m Guybrush Threepwood and I want to be a pirate."
 [Bearded guy] says "Yikes!"
 [Bearded guy’s brother] says "Don’t sneak up on people like that."
 [Player] says "I’m so sorry! It won’t happen again. Promise!"
+```
 
 The first lines defines something the player says at the start of the conversation. The second and third lines define something that things within the scene would say next. Note that even though the the conversation is with Bearded guy another character Bearded guy’s brother can provide input. 
 
@@ -226,12 +228,14 @@ Scene: Destination Room
 
 ### Memories
 
-Memories is term used for events that the target (game, item, scene) “remembers“ about important decisions or actions the current player has made within the game for the purpose of making it easily available to other scenes or outside the game e.g. for use in a sequel or a series.
+A **memory** is a term used for events that the target (game, item, scene) “remembers“ about important decisions or actions the current player has made within the game for the purpose of making it easily available to other scenes or outside the game e.g. for use in a sequel or a series.
 
 *Example:*
-	
+
+```
 [Knight] says “Your mother was a hamster and your father smelt of elderberries”
 [Game] remembers [Player was insulted by Knight]
+```
 
 Then at a later stage either in another scene or another game within a series the memories can be recalled by simply asking the game to recall a specified identifier.
 
@@ -239,9 +243,9 @@ Then at a later stage either in another scene or another game within a series th
 
 ```
 [Player] asks "Hey, you look familiar"
-[Local Drunk] recalls "Player was insulted by Knight"
+[Local Drunk] recalls "insulted"
 [Local Drunk] says “I’m really sorry about calling your mother a hamster!”
-[Local Drunk] says “...but your father he still smells of elderberries”
+[Local Drunk] says “...but your father still smells of elderberries”
 ```
 
 To close the circle on memories a memory can be forgotten as well.
@@ -256,9 +260,55 @@ To close the circle on memories a memory can be forgotten as well.
 
 ### Aliases
 
-Because Stagescript is aimed first and foremost at writers careful consideration has been put into the words used for game commands. So, to make life easier and not to break the creative flow for as many writers as we possibly can we have created aliases for some commands and definitions. Punctuations in the form of ? and ! have also been added to emphasize the semantic difference between conditions and commands.
+Because Stagescript is aimed first and foremost at writers, careful consideration has been put into the words used for game commands. So, to make life easier and not to break the creative flow we have created aliases for some commands and definitions. Punctuations in the form of ? and ! have also been added to emphasize the semantic difference between conditions and commands.
 
-**TODO: defines aliases and punctuations (asks? forgets! recalls? says! remembers!)**
+#### Punctuations and implicit references
+
+Since most interactions within a world/game are defined with the player being the initiator a short-hand references can be used so we can define interaction without haveing to reference the player and the thing in the current scope i.e. character, object, or item explicitly.
+
+**TODO: defines aliases and punctuations (asks, forgets, recalls, says, remembers)**
+
+```
+Character: Local Drunk
+
+asks "Hey, you look familiar"
+recalls "insulted"
+says I'm really sorry about calling your mother a hamster!"
+says "...but your father still smells of elderberries"
+remembers "apologized"
+forgets "insulted"
+```
+
+Furthermore, the punctuations have a shorter definition defined by 3 letter symbols like so:
+
+```
+Character: Local Drunk
+
+<<< "Hey, you look familiar"
+??? "insulted"
+>>> "I'm really sorry about calling your mother a hamster!"
+>>> "...but your father still smells of elderberries"
++++ "apologized"
+--- "insulted"
+```
+
+Finally, things outside the current scope can of course be references using their full reference name within the conversation.
+
+```
+Character: Bearded guy
+
+A bearded guy sitting on a stool by the bar. His eye-patch, skull decorated hat and
+pegleg might suggest he’s a pirate. Maybe you should talk to him.
+
+<<< "Hello! I’m Guybrush Threepwood and I want to be a pirate."
+>>> "Yikes!"
+[Bearded guy’s brother] says "Don’t sneak up on people like that."
+<<< "I’m so sorry! It won’t happen again. Promise."
+
+Character: Bearded Guy's Brother
+
+Another bearded guy sitting on a stool by the bar.
+```
 
 ### Scopes
 
@@ -312,7 +362,7 @@ Examples
 
 ### Johnny’s Bedroom
 
-This is a simple scene depicting a little boys bedroom and his need for a flashlight in order to explore the mysterious closet door in his room. The scene has two defined items on it a flashlight and a closet door. The flashlight is required to use the closet door which leads to the next scene called Dreamworld.
+This is a simple scene depicting a little boy's bedroom and his need for a flashlight in order to explore the mysterious closet door in his room. The scene has two defined items on it a flashlight and a closet door. The flashlight is required to use the closet door which leads to the next scene called Dreamworld.
 
 ```
 Scene: Johnny’s Bedroom
